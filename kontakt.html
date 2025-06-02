@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kontakt - AUTO PLAC PETAR MARAŠ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="stil.css">
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">-AUTO PLAC PETAR MARAŠ-</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#meni">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="meni">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Pocetna</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="galerija.html">Galerija</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="kontakt.html">Kontakt</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="faq.html">Odabir modela</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1>Kontaktirajte nas</h1>
+        <p>Ako imate pitanja ili želite više informacija, slobodno nas kontaktirajte putem forme ispod ili pozivom na broj telefona.</p>
+
+        <form>
+            <div class="mb-3">
+                <label for="ime" class="form-label">Ime i prezime</label>
+                <input type="text" class="form-control" id="ime" placeholder="Unesite vaše ime" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email adresa</label>
+                <input type="email" class="form-control" id="email" placeholder="Unesite vaš email" required>
+            </div>
+            <div class="mb-3">
+                <label for="poruka" class="form-label">Poruka</label>
+                <textarea class="form-control" id="poruka" rows="4" placeholder="Vaša poruka..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Pošalji</button>
+        </form>
+
+        <hr />
+        <h2>Naši kontakt podaci</h2>
+        <p><strong>Telefon:</strong> +381 60 3345 223</p>
+        <p><strong>Email:</strong> info@autoplacpetarmaras.rs</p>
+        <p><strong>Adresa:</strong> Ulica Primer 12, Beograd, Srbija</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
