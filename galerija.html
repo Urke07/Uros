@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Galerija - Auto Plac Petar Maraš</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+  <link rel="stylesheet" href="stil.css">
+  <style>
+    .no-results {
+      margin-top: 50px;
+      font-size: 1.5rem;
+      color: #a00;
+      font-weight: 600;
+      text-align: center;
+      background: #f8d7da;
+      border: 1px solid #f5c2c7;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="#">-AUTO PLAC PETAR MARAŠ-</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#meni">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="meni">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">Pocetna</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="galerija.html">Galerija</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="kontakt.html">Kontakt</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="faq.html">Odabir modela</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">Galerija Automobila</h2>
+
+  <div id="results" class="row justify-content-center">
+    <!-- Ovde će biti prikazani rezultati -->
+  </div>
+</div>
+
+<script>
+  // Baza automobila sa po 3 modela po marki
+  var cars = [
+    // Audi
+    {
+      brand: "Audi",
+      model: "A4",
+      fuel: "Benzin",
+      doors: "5",
+      color: "Siva",
+      year: 2020,
+      condition: "Novo",
+      priceMin: 20000,
+      priceMax: 35000,
+      image: "https://car-images.bauersecure.com/wp-images/12793/audi_a4_100.jpg"
+    },
+    {
+      brand: "Audi",
+      model: "Q5",
+      fuel: "Dizel",
+      doors: "5",
+      color: "Plava",
+      year: 2019,
+      condition: "Polovno",
+      priceMin: 28000,
+      priceMax: 40000,
+      image: "https://dmotion.rs/wp-content/uploads/2019/05/2019-audi-q5-55-tfsi-e-quattro.jpg"
+    },
+    {
+      brand: "Audi",
+      model: "A6",
+      fuel: "Hibrid",
+      doors: "5",
+      color: "Crna",
+      year: 2021,
+      condition: "Novo",
+      priceMin: 37000,
+      priceMax: 52000,
+      image: "https://getrentacar.com/storage/cache/images/960-640-100-fit-36464.jpeg"
+    },
+    // BMW
+    {
+      brand: "BMW",
+      model: "X5",
+      fuel: "Dizel",
+      doors: "5",
+      color: "Siva",
+      year: 2018,
+      condition: "Polovno",
+      priceMin: 30000,
+      priceMax: 45000,
+      image: "https://media.ed.edmunds-media.com/bmw/x5/2018/oem/2018_bmw_x5_4dr-suv_xdrive40e-iperformance_fq_oem_1_1600.jpg"
+    },
+    {
+      brand: "BMW",
+      model: "3 Series",
+      fuel: "Benzin",
+      doors: "5",
+      color: "Plava",
+      year: 2020,
+      condition: "Novo",
+      priceMin: 25000,
+      priceMax: 38000,
+      image: "https://hips.hearstapps.com/hmg-prod/images/2020-bmw-m340i-v-2020-genesis-g70-3p3t-1016-hdr-1571838328.jpg?crop=0.827xw:0.761xh;0,0.239xh&resize=2048:*"
+    },
+    {
+      brand: "BMW",
+      model: "i3",
+      fuel: "Električni",
+      doors: "3",
+      color: "Siva",
+      year: 2021,
+      condition: "Novo",
+      priceMin: 35000,
+      priceMax: 45000,
+      image: "https://bps.bmw.rs/upload/images/automobili/!_DPAHUB/1693/mAK4XSmPqD.jpg"
+    },
+    // Mercedes
+    {
+      brand: "Mercedes",
+      model: "C-Class",
+      fuel: "Hibrid",
+      doors: "5",
+      color: "Crna",
+      year: 2022,
+      condition: "Novo",
+      priceMin: 35000,
+      priceMax: 50000,
+      image: "https://www.topgear.com/sites/default/files/2021/11/Mercedes_C300D_0000.jpg"
+    },
+    {
+      brand: "Mercedes",
+      model: "GLE",
+      fuel: "Dizel",
+      doors: "5",
+      color: "Siva",
+      year: 2019,
+      condition: "Polovno",
+      priceMin: 45000,
+      priceMax: 60000,
+      image: "https://www.automanijak.com/resources/images/variant/2146/2019_mercedes_gle.jpg"
+    },
+    {
+      brand: "Mercedes",
+      model: "A-Class",
+      fuel: "Benzin",
+      doors: "5",
+      color: "Siva",
+      year: 2021,
+      condition: "Novo",
+      priceMin: 22000,
+      priceMax: 32000,
+      image: "https://media.ed.edmunds-media.com/mercedes-benz/a-class/2021/oem/2021_mercedes-benz_a-class_sedan_a-220-4matic_fq_oem_1_1600.jpg"
+    },
+    // Volkswagen
+    {
+      brand: "Volkswagen",
+      model: "Golf",
+      fuel: "Benzin",
+      doors: "5",
+      color: "Siva",
+      year: 2019,
+      condition: "Polovno",
+      priceMin: 15000,
+      priceMax: 25000,
+      image: "https://hips.hearstapps.com/hmg-prod/images/2019-volkswagen-golf-1-4t-101-1542320895.jpg"
+    },
+    {
+      brand: "Volkswagen",
+      model: "Passat",
+      fuel: "Dizel",
+      doors: "5",
+      color: "Bela",
+      year: 2018,
+      condition: "Polovno",
+      priceMin: 20000,
+      priceMax: 30000,
+      image: "https://media.ed.edmunds-media.com/volkswagen/passat/2018/oem/2018_volkswagen_passat_sedan_r-line_fq_oem_1_1600.jpg"
+    },
+    {
+      brand: "Volkswagen",
+      model: "Tiguan",
+      fuel: "Benzin",
+      doors: "5",
+      color: "Crvena",
+      year: 2020,
+      condition: "Novo",
+      priceMin: 27000,
+      priceMax: 40000,
+      image: "https://www.automanijak.com/resources/images/variant/1793/tiguan_3.jpg"
+    },
+    // Toyota
+    {
+      brand: "Toyota",
+      model: "Corolla",
+      fuel: "Električni",
+      doors: "5",
+      color: "Crvena",
+      year: 2021,
+      condition: "Novo",
+      priceMin: 18000,
+      priceMax: 30000,
+      image: "https://autoimage.capitalone.com/cms/Auto/assets/images/1119-hero-2021-Toyota-Corolla-XSE-Red-Front-Quarter-Right.jpg"
+    },
+    {
+      brand: "Toyota",
+      model: "RAV4",
+      fuel: "Hibrid",
+      doors: "5",
+      color: "Crna",
+      year: 2020,
+      condition: "Novo",
+      priceMin: 28000,
+      priceMax: 42000,
+      image: "https://hips.hearstapps.com/hmg-prod/images/2020-toyota-rav4-mmp-1-1570472132.jpg?crop=0.762xw:0.622xh;0.210xw,0.272xh&resize=2048:*"
+    },
+    {
+      brand: "Toyota",
+      model: "Camry",
+      fuel: "Benzin",
+      doors: "5",
+      color: "Bela",
+      year: 2019,
+      condition: "Polovno",
+      priceMin: 22000,
+      priceMax: 35000,
+      image: "https://www.thecarexpert.co.uk/wp-content/uploads/2020/02/DSCF0065-scaled-1.jpeg"
+    },
+    // Ford
+    {
+      brand: "Ford",
+      model: "Focus",
+      fuel: "Plin",
+      doors: "5",
+      color: "Crvena",
+      year: 2017,
+      condition: "Polovno",
+      priceMin: 12000,
+      priceMax: 22000,
+      image: "https://carwow-uk-wp-3.imgix.net/ford-focus-driving-5.jpg"
+    },
+    {
+      brand: "Ford",
+      model: "Mustang",
+      fuel: "Benzin",
+      doors: "3",
+      color: "Siva",
+      year: 2021,
+      condition: "Novo",
+      priceMin: 35000,
+      priceMax: 50000,
+      image: "https://images.ctfassets.net/c9t6u0qhbv9e/7uaqDS3qjgDbeIM77vnXka/c5555f3710f00cb59929abc1d92cc781/2021_Ford_Mustang_Review_Thumbnail.jpg"
+    },
+    {
+      brand: "Ford",
+      model: "Explorer",
+      fuel: "Dizel",
+      doors: "5",
+      color: "Siva",
+      year: 2020,
+      condition: "Novo",
+      priceMin: 40000,
+      priceMax: 55000,
+      image: "https://www.motortrend.com/uploads/sites/5/2019/09/2020-Ford-Explorer-ST-front-three-quarter-in-motion-5.jpg"
+    }
+  ];
+
+  // Čitanje GET parametara
+  function getQueryParams() {
+    var params = {};
+    var pairs = location.search.slice(1).split("&");
+    for(var i = 0; i < pairs.length; i++) {
+      var pair = pairs[i].split("=");
+      if(pair[0]) params[pair[0]] = decodeURIComponent(pair[1] || "").trim();
+    }
+    return params;
+  }
+
+  // Provera da li auto zadovoljava filtere
+  function carMatches(car, filters) {
+    if(filters.brand && car.brand.toLowerCase() !== filters.brand.toLowerCase()) return false;
+    if(filters.model && filters.model !== "" && car.model.toLowerCase() !== filters.model.toLowerCase()) return false;
+    if(filters.fuel && filters.fuel !== "" && car.fuel.toLowerCase() !== filters.fuel.toLowerCase()) return false;
+    if(filters.doors && filters.doors !== "" && car.doors !== filters.doors) return false;
+    if(filters.color && filters.color !== "" && car.color.toLowerCase() !== filters.color.toLowerCase()) return false;
+    if(filters.year && filters.year !== "" && car.year !== Number(filters.year)) return false;
+    if(filters.condition && filters.condition !== "" && car.condition.toLowerCase() !== filters.condition.toLowerCase()) return false;
+    if(filters.priceMin && filters.priceMin !== "" && car.priceMax < Number(filters.priceMin)) return false;
+    if(filters.priceMax && filters.priceMax !== "" && car.priceMin > Number(filters.priceMax)) return false;
+    return true;
+  }
+
+  // Prikazivanje rezultata ili poruke ako nema
+  function displayResults(cars, filters) {
+    var container = document.getElementById("results");
+    container.innerHTML = "";
+
+    var filteredCars = cars.filter(function(car) {
+      return carMatches(car, filters);
+    });
+
+    if(filteredCars.length === 0) {
+      container.innerHTML = '<div class="no-results">Trenutno nemamo taj auto na stanju. Molimo pokušajte sa drugim kriterijima ili nas kontaktirajte za više informacija.</div>';
+      return;
+    }
+
+    filteredCars.forEach(function(car) {
+      var card = document.createElement("div");
+      card.className = "col-md-6 col-lg-4 mb-4";
+
+      card.innerHTML = '<div class="card h-100 shadow-sm">' +
+        '<img src="' + car.image + '" class="card-img-top" alt="' + car.brand + ' ' + car.model + '" />' +
+        '<div class="card-body">' +
+          '<h5 class="card-title">' + car.brand + ' ' + car.model + '</h5>' +
+          '<p class="card-text">' +
+            'Gorivo: ' + car.fuel + '<br>' +
+            'Broj vrata: ' + car.doors + '<br>' +
+            'Boja: ' + car.color + '<br>' +
+            'Godište: ' + car.year + '<br>' +
+            'Stanje: ' + car.condition + '<br>' +
+            'Cena: od ' + car.priceMin + ' € do ' + car.priceMax + ' €' +
+          '</p>' +
+        '</div>' +
+      '</div>';
+
+      container.appendChild(card);
+    });
+  }
+
+  var filters = getQueryParams();
+  displayResults(cars, filters);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>
