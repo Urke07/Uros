@@ -287,71 +287,86 @@
   ];
 
   // Čitanje GET parametara
-  function getQueryParams() {
-    var params = {};
-    var pairs = location.search.slice(1).split("&");
-    for(var i = 0; i < pairs.length; i++) {
-      var pair = pairs[i].split("=");
-      if(pair[0]) params[pair[0]] = decodeURIComponent(pair[1] || "").trim();
-    }
-    return params;
+ function getQueryParams() {
+  var params = {};
+  var pairs = location.search.slice(1).split("&");
+  for (var i = 0; i < pairs.length; i++) {
+    var pair = pairs[i].split("=");
+    if (pair[0]) params[pair[0]] = decodeURIComponent(pair[1] || "").trim();
+  }
+  return params;
+}
+
+function carMatches(car, filters) {
+  if (filters.brand && car.brand.toLowerCase() !== filters.brand.toLowerCase()) return false;
+  if (filters.model && filters.model !== "" && car.model.toLowerCase() !== filters.model.toLowerCase()) return false;
+  if (filters.fuel && filters.fuel !== "" && car.fuel.toLowerCase() !== filters.fuel.toLowerCase()) return false;
+  if (filters.doors && filters.doors !== "" && car.doors !== filters.doors) return false;
+  if (filters.color && filters.color !== "" && car.color.toLowerCase() !== filters.color.toLowerCase()) return false;
+  if (filters.year && filters.year !== "" && car.year !== Number(filters.year)) return false;
+  if (filters.condition && filters.condition !== "" && car.condition.toLowerCase() !== filters.condition.toLowerCase()) return false;
+  if (filters.priceMin && filters.priceMin !== "" && car.priceMax < Number(filters.priceMin)) return false;
+  if (filters.priceMax && filters.priceMax !== "" && car.priceMin > Number(filters.priceMax)) return false;
+  return true;
+}
+
+function displayResults(cars, filters) {
+  var container = document.getElementById("results");
+  container.innerHTML = "";
+
+  var filteredCars = cars.filter(function(car) {
+    return carMatches(car, filters);
+  });
+
+  if (filteredCars.length === 0) {
+    var noResultsDiv = document.createElement("div");
+    noResultsDiv.className = "no-results";
+    noResultsDiv.textContent = "Nema rezultata koji odgovaraju traženim kriterijumima.";
+    container.appendChild(noResultsDiv);
+    return;
   }
 
-  // Provera da li auto zadovoljava filtere
-  function carMatches(car, filters) {
-    if(filters.brand && car.brand.toLowerCase() !== filters.brand.toLowerCase()) return false;
-    if(filters.model && filters.model !== "" && car.model.toLowerCase() !== filters.model.toLowerCase()) return false;
-    if(filters.fuel && filters.fuel !== "" && car.fuel.toLowerCase() !== filters.fuel.toLowerCase()) return false;
-    if(filters.doors && filters.doors !== "" && car.doors !== filters.doors) return false;
-    if(filters.color && filters.color !== "" && car.color.toLowerCase() !== filters.color.toLowerCase()) return false;
-    if(filters.year && filters.year !== "" && car.year !== Number(filters.year)) return false;
-    if(filters.condition && filters.condition !== "" && car.condition.toLowerCase() !== filters.condition.toLowerCase()) return false;
-    if(filters.priceMin && filters.priceMin !== "" && car.priceMax < Number(filters.priceMin)) return false;
-    if(filters.priceMax && filters.priceMax !== "" && car.priceMin > Number(filters.priceMax)) return false;
-    return true;
-  }
+  filteredCars.forEach(function(car) {
+    var col = document.createElement("div");
+    col.className = "col-md-4 mb-4";
 
-  // Prikazivanje rezultata ili poruke ako nema
-  function displayResults(cars, filters) {
-    var container = document.getElementById("results");
-    container.innerHTML = "";
+    var card = document.createElement("div");
+    card.className = "card";
 
-    var filteredCars = cars.filter(function(car) {
-      return carMatches(car, filters);
-    });
+    var img = document.createElement("img");
+    img.src = car.image;
+    img.className = "card-img-top";
+    img.alt = car.brand + " " + car.model;
 
-    if(filteredCars.length === 0) {
-      container.innerHTML = '<div class="no-results">Trenutno nemamo taj auto na stanju. Molimo pokušajte sa drugim kriterijima ili nas kontaktirajte za više informacija.</div>';
-      return;
-    }
+    var body = document.createElement("div");
+    body.className = "card-body";
 
-    filteredCars.forEach(function(car) {
-      var card = document.createElement("div");
-      card.className = "col-md-6 col-lg-4 mb-4";
+    var title = document.createElement("h5");
+    title.className = "card-title";
+    title.textContent = car.brand + " " + car.model;
 
-      card.innerHTML = '<div class="card h-100 shadow-sm">' +
-        '<img src="' + car.image + '" class="card-img-top" alt="' + car.brand + ' ' + car.model + '" />' +
-        '<div class="card-body">' +
-          '<h5 class="card-title">' + car.brand + ' ' + car.model + '</h5>' +
-          '<p class="card-text">' +
-            'Gorivo: ' + car.fuel + '<br>' +
-            'Broj vrata: ' + car.doors + '<br>' +
-            'Boja: ' + car.color + '<br>' +
-            'Godište: ' + car.year + '<br>' +
-            'Stanje: ' + car.condition + '<br>' +
-            'Cena: od ' + car.priceMin + ' € do ' + car.priceMax + ' €' +
-          '</p>' +
-        '</div>' +
-      '</div>';
+    var text = document.createElement("p");
+    text.className = "card-text";
+    text.innerHTML =
+      "Gorivo: " + car.fuel + "<br>" +
+      "Vrata: " + car.doors + "<br>" +
+      "Boja: " + car.color + "<br>" +
+      "Godina: " + car.year + "<br>" +
+      "Stanje: " + car.condition + "<br>" +
+      "Cena: " + car.priceMin + " - " + car.priceMax + " EUR";
 
-      container.appendChild(card);
-    });
-  }
+    body.appendChild(title);
+    body.appendChild(text);
+    card.appendChild(img);
+    card.appendChild(body);
+    col.appendChild(card);
+    container.appendChild(col);
+  });
+}
 
-  var filters = getQueryParams();
-  displayResults(cars, filters);
+var filters = getQueryParams();
+displayResults(cars, filters);
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
